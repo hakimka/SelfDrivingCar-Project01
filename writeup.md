@@ -23,25 +23,25 @@ The goals / steps of this project are the following:
 
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+The pipeline consists of several steps. First, I filter images for white and yellow. Then I apply some dilation on the image to reduce the noise. On the filtered out and dilated image, I apply Canny edge filter. Using Hough transformation, I get the lines. The Hough lines are filtered out by slope and size 
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+In order to draw a single line on the left and right lanes, I average out all left and right lanes by summing up all "slopes" and dividing the sum by total number of left and right hough lanes (positive and negative slopes). To smooth out transition of the lane markers from frame to frame, I kept track of the previous lane positions. If for a given frame I cannot determine lanes, I use the previous frame values to draw the lanes
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
 
-![alt text][image1]
 
 
 ### 2. Identify potential shortcomings with your current pipeline
 
 
-One potential shortcoming would be what would happen when ... 
+There potential shortcoming of the proposed method:
 
-Another shortcoming could be ...
+    a) the edge detection of light sensitive
+    b) if the algorithm cannot determine lanes for too many frames, it may draw lanes that are way off.
 
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
+A possible improvement would be to use a gaussian blur to smooth out noisy patches of white/yellow areas.
 
-Another potential improvement could be to ...
+Another potential improvement could be to keep track of number of frames for which the algorithm could not establish the lanes
+If the situation arises when the lanes are not established for too many consequite frames, make the algorithm adaptive to weed out the lanes. 
